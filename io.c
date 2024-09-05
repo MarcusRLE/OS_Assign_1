@@ -4,10 +4,15 @@
 
 #include "io.h"
 
-/* Reads next char from stdin. If no more characters, it returns EOF */
-int
-read_char() {
-  return EOF;
+
+int read_char() {
+    char c;
+    int result = read(0, &c, 1);  // Læser en byte, ind i c addressen, fra "file descriptor". Gemmer derefter antal bytes læst i result.
+    if (result == 1) {  // Alternativt i stedet for "0" kan der stå "stdin_fileno" som er en konstant der repræsenterer standard input.
+        return (int)c;
+    } else {
+        return EOF;  
+    }
 }
 
 /* Writes c to stdout.  If no errors occur, it returns 0, otherwise EOF */
