@@ -1,13 +1,14 @@
 
 #include <errno.h>
+#include <sys/types.h>
 #include <unistd.h>
 
 #include "io.h"
 
 
 int read_char() {
-    char c;
-    int result = read(0, &c, 1);  // Læser en byte, ind i c addressen, fra "file descriptor". Gemmer derefter antal bytes læst i result.
+    char c;// Jeg har en felj i ssize_t. Jeg vil gerne beholde den for robusthed i forhold til negative værdier
+    ssize_t result = read(0, &c, 1);  // Læser en byte, ind i c addressen, fra "file descriptor". Gemmer derefter antal bytes læst i result.
     if (result == 1) {  // Alternativt i stedet for "0" kan der stå "stdin_fileno" som er en konstant der repræsenterer standard input.
         return (int)c;
     } else {
@@ -18,6 +19,8 @@ int read_char() {
 /* Writes c to stdout.  If no errors occur, it returns 0, otherwise EOF */
 int
 write_char(char c) {
+
+  
   return EOF;
 }//https://pubs.opengroup.org/onlinepubs/007908799/xsh/write.html
 
