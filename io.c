@@ -11,7 +11,7 @@ int read_char() {
     if (result == 1) {  // Alternativt i stedet for "0" kan der stå "stdin_fileno" som er en konstant der repræsenterer standard input.
         return (int)c;
     } else {
-        return EOF;  
+        return EOF;  //Der mangler måske en function "if statement" for at håndtere fejl
     }
 }
 
@@ -19,7 +19,7 @@ int read_char() {
 int
 write_char(char c) {
   return EOF;
-}
+}//https://pubs.opengroup.org/onlinepubs/007908799/xsh/write.html
 
 /* Writes a null-terminated string to stdout.  If no errors occur, it returns 0, otherwise EOF */
 int
