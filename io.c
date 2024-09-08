@@ -46,25 +46,31 @@ write_int(int n) {
     nCopy /= 10;
   }
   char intOut[count+1];
-  char* p = intOut;
   intOut[count] = '\0';
   //Handle n == 0;
   if(n == 0) {
     intOut[0] = '0';
   }
   else {
-    int remainingDigits = count;
     //Use modulus to find the least significant digit, and convert it to a char by adding it with '0'.
     while (n > 0) {
-      intOut[remainingDigits] = n % 10 + '0';
+      count--;
+      intOut[count] = n % 10 + '0';
       n /= 10;
-      remainingDigits--;
     }
     if(isNegative) {
       intOut[0] = '-';
     }
   }
-  ssize_t bytes_written = write(STDOUT_FILENO,p,count);
+  size_t bytes = 0;
+  char* cPtr = intOut;
+  while(*p != '\0') {
+    bytes++;
+    cPtr++;
+  }
+  cPtr = intOut;
+  
+  ssize_t bytes_written = write(STDOUT_FILENO, cPtr, bytes);
   if (bytes_written < 0) {
     return EOF;
   }
