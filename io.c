@@ -53,8 +53,6 @@ write_int(int n) {
     intOut[0] = '0';
   }
   else {
-    //Use modulus to find the least significant digit, and convert it to a char by adding it with '0'.
-    //TODO: Reverse array to order string correctly. Keep in mind '-' and '/0'
     while (n > 0) {
       count--;
       intOut[count] = n % 10 + '0';
