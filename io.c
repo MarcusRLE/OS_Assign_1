@@ -27,5 +27,46 @@ write_string(char* s) {
  */
 int
 write_int(int n) {
-  return EOF;
+  int nCopy = n;
+  int count = 0;
+  int isNegative = 0;
+  /*Use a copy of n so original input remains intact. If n is negative, we increment
+  *count to make room for '-'. We also flip the sign of both n and nCopy to simplify
+  *the code further down.
+  */
+  if(nCopy < 0) {
+    nCopy = -nCopy;
+    n = -n;
+    isNegative = 1;
+    count++;
+  }
+  //Count number of digits - used to determine size of char[]
+  while(nCopy > 0) {
+    count++;
+    nCopy /= 10;
+  }
+  char intOut[count+1];
+  char* p = intOut;
+  intOut[count] = '\0';
+  //Handle n == 0;
+  if(n == 0) {
+    intOut[count] = '0';
+  }
+  else {
+    int remainingDigits = count;
+    //Use modulus to find the least significant digit, and convert it to a char by adding it with '0'.
+    while (n > 0) {
+      intOut[remainingDigits] = n % 10 + '0';
+      n /= 10;
+      remainingDigits--;
+    }
+    if(isNegative) {
+      intOut[0] = '-';
+    }
+  }
+  ssize_t bytes_written = write(STDOUT_FILENO,p,count);
+  if (bytes_written < 0) {
+    return EOF;
+  }
+  return 0;
 }
