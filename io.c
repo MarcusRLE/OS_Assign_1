@@ -19,7 +19,20 @@ write_char(char c) {
 /* Writes a null-terminated string to stdout.  If no errors occur, it returns 0, otherwise EOF */
 int
 write_string(char* s) {
-  return EOF;
+  size_t count = 0;
+  char* p = s;
+    
+  //Determine number of bytes  
+  while(*p != '\0') {
+    count++;
+    p++;
+  }
+
+  ssize_t bytes_written = write(STDOUT_FILENO,s,count);
+  if (bytes_written < 0) {
+    return EOF;
+  }
+  return 0;
 }
 
 /* Writes n to stdout (without any formatting).   
