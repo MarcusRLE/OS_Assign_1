@@ -64,7 +64,7 @@ write_int(int n) {
     }
   }
   
-  size_t bytes = strlen(intCount); 
+  size_t bytes = strlen(intOut); 
   ssize_t bytes_written = write(STDOUT_FILENO, cPtr, bytes);
   if (bytes_written < 0) {
     return EOF;
