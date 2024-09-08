@@ -50,7 +50,7 @@ write_int(int n) {
   intOut[count] = '\0';
   //Handle n == 0;
   if(n == 0) {
-    intOut[count] = '0';
+    intOut[0] = '0';
   }
   else {
     int remainingDigits = count;
