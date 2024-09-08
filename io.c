@@ -1,6 +1,7 @@
 
 #include <errno.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "io.h"
 
@@ -62,14 +63,8 @@ write_int(int n) {
       intOut[0] = '-';
     }
   }
-  size_t bytes = 0;
-  char* cPtr = intOut;
-  while(*p != '\0') {
-    bytes++;
-    cPtr++;
-  }
-  cPtr = intOut;
   
+  size_t bytes = strlen(intCount); 
   ssize_t bytes_written = write(STDOUT_FILENO, cPtr, bytes);
   if (bytes_written < 0) {
     return EOF;
