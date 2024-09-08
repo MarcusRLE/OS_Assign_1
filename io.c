@@ -1,6 +1,7 @@
 
 #include <errno.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "io.h"
 
@@ -19,16 +20,8 @@ write_char(char c) {
 /* Writes a null-terminated string to stdout.  If no errors occur, it returns 0, otherwise EOF */
 int
 write_string(char* s) {
-  size_t count = 0;
-  char* p = s;
-    
-  //Determine number of bytes  
-  while(*p != '\0') {
-    count++;
-    p++;
-  }
-
-  ssize_t bytes_written = write(STDOUT_FILENO,s,count);
+  size_t len = strlen(s);
+  ssize_t bytes_written = write(STDOUT_FILENO, s, len);
   if (bytes_written < 0) {
     return EOF;
   }
