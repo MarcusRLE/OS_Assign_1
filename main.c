@@ -17,15 +17,14 @@
 
 char count_str[] = "Count = ";
 char collection_str[] = "Collection = ";
-int count = 0;
 
 
 int
 main()
 {
+  int count = 0;
   char command;
-  struct int_llist *collection = NULL;
-  struct int_llist *latest = collection;
+  intNode *collection = NULL;
 
   // Read through commands
   while ((command = read_char()) == ('a' | 'b' | 'c')) {
@@ -44,13 +43,15 @@ main()
   write_string(collection_str);
   print_list(collection);
 
+  free_list(&collection);
+
 
   return 0;
 }
 
-int add_int(struct int_llist **collection, int count) {
+int add_int(intNode **collection, int count) {
     // Allocate memory for new int_llist and set values
-    struct int_llist *new_int = (struct int_llist *)malloc(sizeof(struct int_llist));
+    intNode *new_int = (intNode *)malloc(sizeof(intNode));
     new_int->value = count;
     new_int->next = NULL;
 
@@ -58,7 +59,7 @@ int add_int(struct int_llist **collection, int count) {
     if(*collection == NULL) {
         *collection = new_int;
     } else {
-        struct int_llist *latest = *collection;
+        intNode *latest = *collection;
         while(latest->next != NULL) {
             latest = latest->next;
         }
@@ -67,14 +68,14 @@ int add_int(struct int_llist **collection, int count) {
     return 0;
 }
 
-int remove_int(struct int_llist **collection) {
+int remove_int(intNode **collection) {
     // Remove latest int_llist from collection
     if(*collection == NULL) {
         return -1;
     }
 
-    struct int_llist *temp = *collection;
-    struct int_llist *previous = NULL;
+    intNode *temp = *collection;
+    intNode *previous = NULL;
 
     if(temp->next != NULL) {
         while(temp->next != NULL) {
@@ -92,9 +93,9 @@ int remove_int(struct int_llist **collection) {
     return 0;
 }
 
-int print_list(struct int_llist *collection) {
+int print_list(intNode *collection) {
     // Print all values in collection
-    struct int_llist *temp = collection;
+    intNode *temp = collection;
     while(temp != NULL) {
         write_int(temp->value);
         temp = temp->next;
@@ -102,6 +103,21 @@ int print_list(struct int_llist *collection) {
             write_char(',');
             write_char(' ');
         }
+    }
+    return 0;
+}
+
+int free_list(intNode **collection) {
+    if(*collection == NULL) {
+        return -1;
+    }
+    // Free all memory allocated for collection
+    intNode *temp = *collection;
+    intNode *next = NULL;
+    while(temp != NULL) {
+        next = temp->next;
+        free(temp);
+        temp = next;
     }
     return 0;
 }
