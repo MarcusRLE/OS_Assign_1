@@ -84,11 +84,11 @@ int remove_last(intNode **collection) {
         }
         if(previous != NULL) {
             previous->next = NULL;
-            free(temp);
         } else {
-            free(temp);
             *collection = NULL;
         }
+
+        free(temp);
     }
     return 0;
 }
