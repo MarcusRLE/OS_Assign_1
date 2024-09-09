@@ -13,7 +13,7 @@ struct int_llist
 };
 
 int add_int(struct int_llist **collection, int count);
-int remove_int(struct int_llist **collection);
+int remove_last(struct int_llist **collection);
 int free_list(struct int_llist **collection);
 int print_list(struct int_llist *collection);
 

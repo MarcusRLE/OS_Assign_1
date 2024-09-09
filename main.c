@@ -31,7 +31,7 @@ main()
     if (command == 'a') {
         add_int(&collection, count);
     } else if (command == 'c') {
-        remove_int(&collection);
+        remove_last(&collection);
     }
       count++;
   }
@@ -50,12 +50,12 @@ main()
 }
 
 int add_int(intNode **collection, int count) {
-    // Allocate memory for new int_llist and set values
+    // Allocate memory for new intNode and set values
     intNode *new_int = (intNode *)malloc(sizeof(intNode));
     new_int->value = count;
     new_int->next = NULL;
 
-    // Add new int_llist to collection tail
+    // Add new intNode to collection tail
     if(*collection == NULL) {
         *collection = new_int;
     } else {
@@ -68,8 +68,8 @@ int add_int(intNode **collection, int count) {
     return 0;
 }
 
-int remove_int(intNode **collection) {
-    // Remove latest int_llist from collection
+int remove_last(intNode **collection) {
+    // Remove latest intNode from collection
     if(*collection == NULL) {
         return -1;
     }
