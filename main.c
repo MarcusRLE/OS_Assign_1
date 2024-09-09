@@ -5,6 +5,9 @@
 #include "io.h"
 #include "main.h"
 
+char count_str[] = "Count = ";
+char collection_str[] = "Collection = ";
+
 /**
  * @name  main
  * @brief This function is the entry point to your program
@@ -14,14 +17,8 @@
  * Then it has a place for you to implementation the command 
  * interpreter as  specified in the handout.
  */
-
-char count_str[] = "Count = ";
-char collection_str[] = "Collection = ";
-
-
 int
-main()
-{
+main() {
   int count = 0;
   char command;
   intNode *collection = NULL;
@@ -36,20 +33,24 @@ main()
       count++;
   }
 
+  // Print current count and collection
+  print_all(collection, count);
 
-  write_string(count_str);
-  write_int(count);
-  write_char('\n');
-  write_string(collection_str);
-  print_list(collection);
-
+  // Free memory allocated for collection
   free_list(&collection);
-
 
   return 0;
 }
 
-int add_int(intNode **collection, int count) {
+/**
+ * @name  add_int
+ * @brief This function adds a new intNode to the collection
+ * @param collection - pointer to the head of the collection
+ * @param count - the value to be added to the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+add_int(intNode **collection, int count) {
     // Allocate memory for new intNode and set values
     intNode *new_int = (intNode *)malloc(sizeof(intNode));
     new_int->value = count;
@@ -68,7 +69,14 @@ int add_int(intNode **collection, int count) {
     return 0;
 }
 
-int remove_last(intNode **collection) {
+/**
+ * @name  remove_last
+ * @brief This function removes the last intNode from the collection
+ * @param collection - pointer to the head of the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+remove_last(intNode **collection) {
     // Remove latest intNode from collection
     if(*collection == NULL) {
         return -1;
@@ -93,7 +101,31 @@ int remove_last(intNode **collection) {
     return 0;
 }
 
-int print_list(intNode *collection) {
+/**
+ * @name  print_all
+ * @brief This function prints the count and all values in the collection
+ * @param collection - pointer to the head of the collection
+ * @param count - the number of values in the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+print_all(intNode *collection, int count){
+    write_string(count_str);
+    write_int(count);
+    write_char('\n');
+    write_string(collection_str);
+    print_list(collection);
+    return 0;
+}
+
+/**
+ * @name  print_list
+ * @brief This function prints all values in the collection
+ * @param collection - pointer to the head of the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+print_list(intNode *collection) {
     // Print all values in collection
     intNode *temp = collection;
     while(temp != NULL) {
@@ -107,7 +139,14 @@ int print_list(intNode *collection) {
     return 0;
 }
 
-int free_list(intNode **collection) {
+/**
+ * @name  free_list
+ * @brief This function frees all memory allocated for the collection
+ * @param collection - pointer to the head of the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+free_list(intNode **collection) {
     if(*collection == NULL) {
         return -1;
     }
