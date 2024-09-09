@@ -25,11 +25,16 @@ main() {
 
   // Read through commands
   while ((command = read_char()) == ('a' | 'b' | 'c')) {
-    if (command == 'a') {
-        add_int(&collection, count);
-    } else if (command == 'c') {
-        remove_last(&collection);
-    }
+      switch (command) {
+          case 'a':
+              add_int(&collection, count);
+              break;
+          case 'c':
+              remove_last(&collection);
+              break;
+          default:
+              break;
+      }
       count++;
   }
 
