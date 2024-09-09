@@ -33,6 +33,25 @@ main()
    *  Print your collection of elements as specified in the handout
    *    as a comma delimited series of integers
    *-----------------------------------------------------------------*/
-
+   
+while(1){
+  command  = read_char();
+  if(command == EOF || (command != 'a' && command != 'b' && command != 'c')){
+    break;
+  }
+  switch(command){
+    case 'a':
+      add_element(&collection);
+      counter++;
+      break;
+    case 'b':
+      counter++
+      break;
+    case 'c':
+      remove_element(&collection);
+      counter++;
+      break;
+  }
+}
   return 0;
 }
