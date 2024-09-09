@@ -12,8 +12,18 @@
  * Then it has a place for you to implementation the command 
  * interpreter as  specified in the handout.
  */
-int
-main()
+typedef struct Node{
+  int value;
+  struct Node* next;
+  struct Node* prev;  
+} Node;
+
+typedef struct Collection{
+  Node* head;
+  Node* tail;
+} Collection;
+
+int main()
 {
   /*-----------------------------------------------------------------
    *TODO:  You need to implement the command line driver here as
@@ -33,7 +43,10 @@ main()
    *  Print your collection of elements as specified in the handout
    *    as a comma delimited series of integers
    *-----------------------------------------------------------------*/
-   
+   int counter = 0;
+   Collection collection ={0, NULL};
+    char command;
+
 while(1){
   command  = read_char();
   if(command == EOF || (command != 'a' && command != 'b' && command != 'c')){
