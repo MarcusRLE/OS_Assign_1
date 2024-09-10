@@ -1,7 +1,12 @@
 
 /* You are not allowed to use <stdio.h> */
-#include "io.h"
+#include <stdlib.h>
 
+#include "io.h"
+#include "main.h"
+
+char SEP[] = ", ";
+char END[] = ";\n";
 
 /**
  * @name  main
@@ -13,26 +18,133 @@
  * interpreter as  specified in the handout.
  */
 int
-main()
-{
-  /*-----------------------------------------------------------------
-   *TODO:  You need to implement the command line driver here as
-   *       specified in the assignment handout.
-   *
-   * The following pseudo code describes what you need to do
-   *  
-   *  Declare the counter and the collection structure variables
-   *
-   *
-   *  In a loop
-   *    1) Read a command from standard in using read_char function
-   *    2) If the command is not 'a', 'b', 'c': then break the loop
-   *    3) Process the command as specified in the handout
-   *  End loop
-   *
-   *  Print your collection of elements as specified in the handout
-   *    as a comma delimited series of integers
-   *-----------------------------------------------------------------*/
+main() {
+  int count = 0;
+  char command;
+  intNode *collection = NULL;
+
+  // Read through commands
+  while ((command = read_char()) == ('a' | 'b' | 'c')) {
+      switch (command) {
+          case 'a':
+              add_int(&collection, count);
+              break;
+          case 'c':
+              remove_last(&collection);
+              break;
+          default:
+              break;
+      }
+      count++;
+  }
+
+  // Print current count and collection
+  print_list(collection);
+
+  // Free memory allocated for collection
+  free_list(&collection);
 
   return 0;
+}
+
+/**
+ * @name  add_int
+ * @brief This function adds a new intNode to the collection
+ * @param collection - pointer to the head of the collection
+ * @param count - the value to be added to the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+add_int(intNode **collection, int count) {
+    // Allocate memory for new intNode and set values
+    intNode *new_int = (intNode *)malloc(sizeof(intNode));
+    new_int->value = count;
+    new_int->next = NULL;
+
+    // Add new intNode to collection tail
+    if(*collection == NULL) {
+        *collection = new_int;
+    } else {
+        intNode *latest = *collection;
+        while(latest->next != NULL) {
+            latest = latest->next;
+        }
+        latest->next = new_int;
+    }
+    return 0;
+}
+
+/**
+ * @name  remove_last
+ * @brief This function removes the last intNode from the collection
+ * @param collection - pointer to the head of the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+remove_last(intNode **collection) {
+    // Remove latest intNode from collection
+    if(*collection == NULL) {
+        return -1;
+    }
+
+    intNode *temp = *collection;
+    intNode *previous = NULL;
+
+    if(temp->next != NULL) {
+        while(temp->next != NULL) {
+            previous = temp;
+            temp = temp->next;
+        }
+        if(previous != NULL) {
+            previous->next = NULL;
+        } else {
+            *collection = NULL;
+        }
+
+        free(temp);
+    }
+    return 0;
+}
+
+/**
+ * @name  print_list
+ * @brief This function prints all values in the collection
+ * @param collection - pointer to the head of the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+print_list(intNode *collection) {
+    // Print all values in collection
+    intNode *temp = collection;
+    while(temp != NULL) {
+        write_int(temp->value);
+        temp = temp->next;
+        if(temp->next != NULL) {
+            write_string(SEP);
+        }
+    }
+    write_string(END);
+    return 0;
+}
+
+/**
+ * @name  free_list
+ * @brief This function frees all memory allocated for the collection
+ * @param collection - pointer to the head of the collection
+ * @return 0 for success, anything else for failure
+ */
+int
+free_list(intNode **collection) {
+    if(*collection == NULL) {
+        return -1;
+    }
+    // Free all memory allocated for collection
+    intNode *temp = *collection;
+    intNode *next = NULL;
+    while(temp != NULL) {
+        next = temp->next;
+        free(temp);
+        temp = next;
+    }
+    return 0;
 }
