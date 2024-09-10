@@ -5,8 +5,8 @@
 #include "io.h"
 #include "main.h"
 
-char count_str[] = "Count = ";
-char collection_str[] = "Collection = ";
+char SEP[] = ", ";
+char END[] = ";\n";
 
 /**
  * @name  main
@@ -39,7 +39,7 @@ main() {
   }
 
   // Print current count and collection
-  print_all(collection, count);
+  print_list(collection);
 
   // Free memory allocated for collection
   free_list(&collection);
@@ -107,23 +107,6 @@ remove_last(intNode **collection) {
 }
 
 /**
- * @name  print_all
- * @brief This function prints the count and all values in the collection
- * @param collection - pointer to the head of the collection
- * @param count - the number of values in the collection
- * @return 0 for success, anything else for failure
- */
-int
-print_all(intNode *collection, int count){
-    write_string(count_str);
-    write_int(count);
-    write_char('\n');
-    write_string(collection_str);
-    print_list(collection);
-    return 0;
-}
-
-/**
  * @name  print_list
  * @brief This function prints all values in the collection
  * @param collection - pointer to the head of the collection
@@ -137,10 +120,10 @@ print_list(intNode *collection) {
         write_int(temp->value);
         temp = temp->next;
         if(temp->next != NULL) {
-            write_char(',');
-            write_char(' ');
+            write_string(SEP);
         }
     }
+    write_string(END);
     return 0;
 }
 
