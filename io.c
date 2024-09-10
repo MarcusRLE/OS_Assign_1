@@ -1,27 +1,21 @@
 
 #include <errno.h>
+#include <sys/types.h>
 #include <unistd.h>
-#include <string.h>
 
 #include "io.h"
 
 /* Reads next char from stdin. If no more characters, it returns EOF */
-int
-read_char() {
-  return EOF;
+int read_char() {
+    char c;// Jeg har en felj i ssize_t. Jeg vil gerne beholde den for robusthed i forhold til negative værdier
+    ssize_t result = read(0, &c, 1);  // Læser en byte, ind i c addressen, fra "file descriptor". Gemmer derefter antal bytes læst i result.
+    if (result == 1) {  // Alternativt i stedet for "0" kan der stå "stdin_fileno" som er en konstant der repræsenterer standard input.
+        return (int)c;
+    } else {
+        return EOF;  //Der mangler måske en function "if statement" for at håndtere fejl
+    }
 }
 
-/* Writes c to stdout.  If no errors occur, it returns 0, otherwise EOF */
-int
-write_char(char c) {
-  return EOF;
-}
-
-/* Writes a null-terminated string to stdout.  If no errors occur, it returns 0, otherwise EOF */
-int
-write_string(char* s) {
-  return EOF;
-}
 
 /* Writes n to stdout (without any formatting).   
  * If no errors occur, it returns 0, otherwise EOF
@@ -70,3 +64,4 @@ write_int(int n) {
   }
   return 0;
 }
+
