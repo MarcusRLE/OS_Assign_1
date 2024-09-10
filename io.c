@@ -19,7 +19,8 @@ int read_char() {
 /* Writes c to stdout.  If no errors occur, it returns 0, otherwise EOF */
 int
 write_char(char c) {
-  ssize_t result = write(1, &c, 1);  // Skriver en byte, fra c addressen, til "file descriptor". Gemmer derefter antal bytes skrevet i result.
+  char *cPtr = &c;
+  ssize_t result = write(1, cPtr, 1);  // Skriver en byte, fra c addressen, til "file descriptor". Gemmer derefter antal bytes skrevet i result.
   if (result < 0) {
     return EOF;
   } 

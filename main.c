@@ -22,21 +22,25 @@ main() {
   int count = 0;
   char command;
   intNode *collection = NULL;
-
+  int flag = 1;
   // Read through commands
-  while ((command = read_char()) == ('a' | 'b' | 'c')) {
-      switch (command) {
-          case 'a':
-              add_int(&collection, count);
-              break;
-          case 'c':
-              remove_last(&collection);
-              break;
-          default:
-              break;
-      }
-      count++;
-  }
+    while (flag) {
+        command = read_char();
+        switch (command) {
+            case 'a':
+                add_int(&collection, count);
+                break;
+            case 'b':
+                break;
+            case 'c':
+                remove_last(&collection);
+                break;
+            default:
+                flag = 0;
+                break;
+        }
+        count++;
+    }
 
   // Print current count and collection
   print_list(collection);
@@ -60,7 +64,6 @@ add_int(intNode **collection, int count) {
     intNode *new_int = (intNode *)malloc(sizeof(intNode));
     new_int->value = count;
     new_int->next = NULL;
-
     // Add new intNode to collection tail
     if(*collection == NULL) {
         *collection = new_int;
@@ -119,11 +122,12 @@ print_list(intNode *collection) {
     while(temp != NULL) {
         write_int(temp->value);
         temp = temp->next;
-        if(temp->next != NULL) {
-            write_string(SEP);
+        if(temp != NULL) {
+            write_char(',');
         }
     }
-    write_string(END);
+    write_char(';');
+    write_char('\n');
     return 0;
 }
 
