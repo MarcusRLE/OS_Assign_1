@@ -75,7 +75,7 @@ write_int(int n) {
       intOut[0] = '-';
     }
   }
-  char* cPtr = intOut;c
+  char* cPtr = intOut;
   ssize_t bytes_written = write(STDOUT_FILENO, cPtr, strlen(intOut));
   if (bytes_written < 0) {
     return EOF;
