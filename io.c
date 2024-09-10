@@ -1,7 +1,7 @@
-
 #include <errno.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "io.h"
 
@@ -9,13 +9,33 @@
 int read_char() {
     char c;// Jeg har en felj i ssize_t. Jeg vil gerne beholde den for robusthed i forhold til negative værdier
     ssize_t result = read(0, &c, 1);  // Læser en byte, ind i c addressen, fra "file descriptor". Gemmer derefter antal bytes læst i result.
-    if (result == 1) {  // Alternativt i stedet for "0" kan der stå "stdin_fileno" som er en konstant der repræsenterer standard input.
-        return (int)c;
-    } else {
-        return EOF;  //Der mangler måske en function "if statement" for at håndtere fejl
-    }
+    if (result < 0) {  // Alternativt i stedet for "0" kan der stå "stdin_fileno" som er en konstant der repræsenterer standard input.
+        return EOF;
+    } 
+    return (int)c;
 }
 
+
+/* Writes c to stdout.  If no errors occur, it returns 0, otherwise EOF */
+int
+write_char(char c) {
+  ssize_t result = write(1, &c, 1);  // Skriver en byte, fra c addressen, til "file descriptor". Gemmer derefter antal bytes skrevet i result.
+  if (result < 0) {
+    return EOF;
+  } 
+  return 0;
+}
+
+/* Writes a null-terminated string to stdout.  If no errors occur, it returns 0, otherwise EOF */
+int
+write_string(char* s) {
+  size_t len = strlen(s);
+  ssize_t bytes_written = write(STDOUT_FILENO, s, len);
+  if (bytes_written < 0) {
+    return EOF;
+  }
+  return 0;
+}
 
 /* Writes n to stdout (without any formatting).   
  * If no errors occur, it returns 0, otherwise EOF
@@ -42,7 +62,6 @@ write_int(int n) {
   }
   char intOut[count+1];
   intOut[count] = '\0';
-  //Handle n == 0;
   if(n == 0) {
     intOut[0] = '0';
   }
@@ -56,12 +75,10 @@ write_int(int n) {
       intOut[0] = '-';
     }
   }
-  
-  size_t bytes = strlen(intOut); 
-  ssize_t bytes_written = write(STDOUT_FILENO, cPtr, bytes);
+  char* cPtr = intOut;
+  ssize_t bytes_written = write(STDOUT_FILENO, cPtr, strlen(intOut));
   if (bytes_written < 0) {
     return EOF;
   }
   return 0;
 }
-
