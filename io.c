@@ -1,6 +1,7 @@
 #include <errno.h>
 #include <sys/types.h>
 #include <unistd.h>
+#include <string.h>
 
 #include "io.h"
 
@@ -75,8 +76,7 @@ write_int(int n) {
     }
   }
   
-  size_t bytes = strlen(intOut); 
-  ssize_t bytes_written = write(STDOUT_FILENO, cPtr, bytes);
+  ssize_t bytes_written = write(STDOUT_FILENO, cPtr, strlen(intOut));
   if (bytes_written < 0) {
     return EOF;
   }
