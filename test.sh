@@ -22,6 +22,11 @@ out="1;"
 
 [[ $(./cmd_int <<< "$in") == "$out"* ]] && echo "PASSED" || echo "FAILED"
 
+in="acq"
+out=";"
+
+[[ $(./cmd_int <<< "$in") == "$out"* ]] && echo "PASSED" || echo "FAILED"
+
 in="abcalcddmtmdma"
 out="3;"
 
