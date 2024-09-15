@@ -65,14 +65,14 @@ add_int(intNode **collection, int count) {
     new_int->value = count;
     new_int->next = NULL;
     // Add new intNode to collection tail
-    if(*collection == NULL) {
+    if(*collection == NULL) { // If collection is empty set new intNode as head
         *collection = new_int;
-    } else {
+    } else { // Else add new intNode to tail
         intNode *latest = *collection;
-        while(latest->next != NULL) {
+        while(latest->next != NULL) { // When 'latest' points to NULL, we have reached the tail
             latest = latest->next;
         }
-        latest->next = new_int;
+        latest->next = new_int; // Add new intNode to tail
     }
     return 0;
 }
