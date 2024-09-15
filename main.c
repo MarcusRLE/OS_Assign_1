@@ -93,19 +93,17 @@ remove_last(intNode **collection) {
     intNode *temp = *collection;
     intNode *previous = NULL;
 
-    if(temp->next != NULL) {
-        while(temp->next != NULL) {
-            previous = temp;
-            temp = temp->next;
-        }
-        if(previous != NULL) {
-            previous->next = NULL;
-        } else {
-            *collection = NULL;
-        }
-
-        free(temp);
+    while(temp->next != NULL) {
+         previous = temp;
+         temp = temp->next;
     }
+    if(previous != NULL) {
+        previous->next = NULL;
+    } else {
+        *collection = NULL;
+    }
+
+    free(temp);
     return 0;
 }
 
