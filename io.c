@@ -8,7 +8,7 @@
 /* Reads next char from stdin. If no more characters, it returns EOF */
 int read_char() {
     char c;// Jeg har en felj i ssize_t. Jeg vil gerne beholde den for robusthed i forhold til negative værdier
-    ssize_t result = read(0, &c, 1);  // Læser en byte, ind i c addressen, fra "file descriptor". Gemmer derefter antal bytes læst i result.
+    ssize_t result = read(STDIN_FILENO, &c, 1);  // Læser en byte, ind i c addressen, fra "file descriptor". Gemmer derefter antal bytes læst i result.
     if (result < 0) {  // Alternativt i stedet for "0" kan der stå "stdin_fileno" som er en konstant der repræsenterer standard input.
         return EOF;
     } 
@@ -20,7 +20,7 @@ int read_char() {
 int
 write_char(char c) {
   char *cPtr = &c;
-  ssize_t result = write(1, cPtr, 1);  // Skriver en byte, fra c addressen, til "file descriptor". Gemmer derefter antal bytes skrevet i result.
+  ssize_t result = write(STDOUT_FILENO, cPtr, 1);  // Skriver en byte, fra c addressen, til "file descriptor". Gemmer derefter antal bytes skrevet i result.
   if (result < 0) {
     return EOF;
   } 
